@@ -25,12 +25,21 @@ spec:
         envFrom:
         - secretRef:
             name: app-secrets
+
+        # Just give it more time to start - that's it!
+        startupProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 20  
+          
         resources:
           requests:
             memory: "128Mi"
             cpu: "100m"
             ephemeral-storage: "1Gi"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "200m"
             ephemeral-storage: "2Gi"

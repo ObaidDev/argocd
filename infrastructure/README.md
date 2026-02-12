@@ -20,3 +20,16 @@ helm install my-haproxy4 haproxytech/haproxy \
 ```
 
 Check [https://github.com/hetznercloud/hcloud-cloud-controller-manager/blob/main/docs/guides/load-balancer/quickstart.md]
+
+
+
+#### create ingress classs : 
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: haproxy
+spec:
+  controller: haproxy.org/ingress-controller
+```

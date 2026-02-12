@@ -1,0 +1,14 @@
+# apps/your-app/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bufferpost-backend-service
+  namespace: bufferpost
+spec:
+  selector:
+    app: bufferpost-backend
+  ports:
+  - protocol: TCP
+    port: 80        # Service port
+    targetPort: 8080  # Container port
+  type: ClusterIP  # Change to LoadBalancer or NodePort if needed

@@ -1,0 +1,36 @@
+# apps/your-app/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bufferpost-backend
+  namespace: bufferpost
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bufferpost-backend
+  template:
+    metadata:
+      labels:
+        app: bufferpost-backend
+    spec:
+      imagePullSecrets:
+      - name: dockerhub-secret
+      automountServiceAccountToken: false
+      containers:
+      - name: bufferpost-backend
+        image: abuobaid/bufferpost-backend-140lnp:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: app-secrets
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+            ephemeral-storage: "2Gi"

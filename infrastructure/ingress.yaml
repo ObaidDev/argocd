@@ -14,9 +14,7 @@ spec:
   tls:
   - hosts:
     - api-bufferpost.systrox.com
-    - app.example.com
-    - admin.example.com
-    secretName: example-com-tls      # cert-manager will auto-create this secret
+    secretName: bufferpost-tls      # cert-manager will auto-create this secret
   rules:
   - host: api-bufferpost.systrox.com
     http:

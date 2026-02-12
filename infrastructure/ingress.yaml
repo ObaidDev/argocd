@@ -4,19 +4,14 @@ kind: Ingress
 metadata:
   name: main-ingress
   namespace: bufferpost
-  # annotations:
-  #   kubernetes.io/ingress.class: haproxy
-  #   # cert-manager.io/cluster-issuer: "letsencrypt-staging"  # Switch to "letsencrypt-prod" when ready
-  #   # haproxy.org/ssl-redirect: "false"
-  #   # haproxy.org/server-ssl: "false"
-  #   # haproxy.org/timeout-server: "60s"
-  #   # haproxy.org/timeout-client: "60s"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: nginx
-  # tls:
-  # - hosts:
-  #   - api-bufferpost.systrox.com
-  #   secretName: bufferpost-tls      # cert-manager will auto-create this secret
+  tls:
+  - hosts:
+    - api-bufferpost.systrox.com
+    secretName: bufferpost-tls      # cert-manager will auto-create this secret
   rules:
   - host: api-bufferpost.systrox.com
     http:

@@ -15,8 +15,8 @@ helm repo update
 
 ```
 helm install my-haproxy4 haproxytech/haproxy \
-    --set service.type=LoadBalancer \
-    --set service.annotations."load-balancer.hetzner.cloud/location: nbg1" \
+  --set service.type=LoadBalancer \
+  --set service.annotations."load-balancer\.hetzner\.cloud/location"=nbg1
 ```
 
 Check [https://github.com/hetznercloud/hcloud-cloud-controller-manager/blob/main/docs/guides/load-balancer/quickstart.md]

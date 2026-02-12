@@ -19,27 +19,19 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: bufferpost-backend
-        image: abuobaid/bufferpost-backend-140lnp:latest
+        image: abuobaid/buuferpost:latest
         ports:
         - containerPort: 8080
         envFrom:
         - secretRef:
             name: app-secrets
-
-        # Just give it more time to start - that's it!
-        startupProbe:
-          tcpSocket:
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          failureThreshold: 20  
           
         resources:
           requests:
-            memory: "128Mi"
+            memory: "500Mi"
             cpu: "100m"
             ephemeral-storage: "1Gi"
           limits:
-            memory: "512Mi"
+            memory: "1024Mi"
             cpu: "200m"
             ephemeral-storage: "2Gi"

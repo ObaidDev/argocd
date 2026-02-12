@@ -12,7 +12,7 @@ metadata:
   #   # haproxy.org/timeout-server: "60s"
   #   # haproxy.org/timeout-client: "60s"
 spec:
-  ingressClassName: haproxy
+  ingressClassName: nginx
   # tls:
   # - hosts:
   #   - api-bufferpost.systrox.com

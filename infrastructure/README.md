@@ -14,7 +14,7 @@ helm repo update
 ```
 
 ```
-helm install my-haproxy4 haproxytech/haproxy \
+helm install my-haproxy4 haproxytech/kubernetes-ingress \
   --set service.type=LoadBalancer \
   --set service.annotations."load-balancer\.hetzner\.cloud/location"=nbg1
 ```

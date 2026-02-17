@@ -19,7 +19,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: bufferpost-backend
-        image: abuobaid/buuferpost:latest
+        image: abuobaid/buuferpost:3
         ports:
         - containerPort: 8080
         envFrom:

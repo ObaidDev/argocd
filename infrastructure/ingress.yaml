@@ -13,16 +13,16 @@ spec:
     - api-bufferpost.systrox.com
     secretName: main-ingress-tls      # cert-manager will auto-create this secret
   rules:
-  - host: api-bufferpost.systrox.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: bufferpost-backend-service
-            port:
-              number: 80
+  # - host: api-bufferpost.systrox.com
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: bufferpost-backend-service
+  #           port:
+  #             number: 80
 
   - host: api-seogeo.systrox.com
     http:

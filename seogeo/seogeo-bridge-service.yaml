@@ -1,0 +1,13 @@
+# seogeo-bridge-service.yaml
+# Create a "proxy" service in the bufferpost namespace that points to the one in default , 
+# because ( Kubernetes Ingress cannot directly route to services in a different namespace.)
+apiVersion: v1
+kind: Service
+metadata:
+  name: seogeo-backend-service
+  namespace: bufferpost
+spec:
+  type: ExternalName
+  externalName: seogeo-backend-service.default.svc.cluster.local
+  ports:
+    - port: 80

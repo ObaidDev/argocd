@@ -1,4 +1,4 @@
-# apps/your-app/service.yaml
+# apps/seogeo/service.yaml
 apiVersion: v1
 kind: Service
 metadata:

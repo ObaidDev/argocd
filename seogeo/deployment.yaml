@@ -1,4 +1,4 @@
-# apps/your-app/deployment.yaml
+# apps/seogeo/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +15,7 @@ spec:
         app: seogeo-backend
     spec:
       imagePullSecrets:
-      - name: dockerhub-secret
+      - name: dockerhub-secret-default-n
       automountServiceAccountToken: false
       containers:
       - name: seogeo-backend

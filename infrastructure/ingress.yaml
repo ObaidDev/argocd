@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: main-ingress
-  namespace: bufferpost
+  namespace: default
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
@@ -11,7 +11,7 @@ spec:
   tls:
   - hosts:
     - api-bufferpost.systrox.com
-    secretName: bufferpost-tls      # cert-manager will auto-create this secret
+    secretName: main-ingress-tls      # cert-manager will auto-create this secret
   rules:
   - host: api-bufferpost.systrox.com
     http:
@@ -21,5 +21,16 @@ spec:
         backend:
           service:
             name: bufferpost-backend-service
+            port:
+              number: 80
+
+  - host: api-seogeo.systrox.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: seogeo-backend-service
             port:
               number: 80

@@ -1,0 +1,36 @@
+# apps/your-app/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seogeo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seogeo-backend
+  template:
+    metadata:
+      labels:
+        app: seogeo-backend
+    spec:
+      imagePullSecrets:
+      - name: dockerhub-secret
+      automountServiceAccountToken: false
+      containers:
+      - name: seogeo-backend
+        image: abuobaid/one-repo:seogeo-3
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: seogeo-app-secrets
+          
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "100m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "1024Mi"
+            cpu: "200m"
+            ephemeral-storage: "2Gi"

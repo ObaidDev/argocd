@@ -19,7 +19,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: seogeo-backend
-        image: abuobaid/one-repo:seogeo-10
+        image: abuobaid/one-repo:seogeo-11
         ports:
         - containerPort: 8080
         envFrom:

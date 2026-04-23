@@ -3,12 +3,15 @@ kind: Application
 metadata:
   name: opensandbox-controller
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
 
   sources:
+    # Source 1 — the controller chart
     - repoURL: https://github.com/alibaba/OpenSandbox.git
       targetRevision: main
       path: kubernetes/charts/opensandbox-controller
@@ -17,6 +20,11 @@ spec:
         valueFiles:
           - $values/opensandbox/values/controller.yaml
 
+    # Source 2 — your argocd GitOps repo (provides $values)
+    - repoURL: https://github.com/ObaidDev/argocd.git
+      targetRevision: main
+      ref: values
+
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: opensandbox-system   # ← fixed

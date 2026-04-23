@@ -12,7 +12,7 @@ spec:
 
   sources:
     # Source 1 — the controller chart
-    - repoURL: https://github.com/alibaba/OpenSandbox.git
+    - repoURL: https://github.com/ObaidDev/OpenSandbox.git
       targetRevision: main
       path: kubernetes/charts/opensandbox-controller
       helm:

@@ -1,5 +1,2 @@
 controller:
   replicaCount: 1
-  kubeClient:
-    qps: !!int 100
-    burst: !!int 200

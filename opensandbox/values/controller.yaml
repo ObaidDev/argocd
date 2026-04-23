@@ -1,2 +1,3 @@
+namespaceOverride: "default"
 controller:
   replicaCount: 1

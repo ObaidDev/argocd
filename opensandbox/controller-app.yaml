@@ -27,4 +27,4 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: default # it does not override the namespace in the controller chart, we should override using this value namespaceOverride :"default"

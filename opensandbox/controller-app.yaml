@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: opensandbox-controller
+  namespace: default
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  sources:
+    - repoURL: https://github.com/alibaba/OpenSandbox.git
+      targetRevision: main
+      path: kubernetes/charts/opensandbox-controller
+      helm:
+        releaseName: opensandbox-controller
+        valueFiles:
+          - $values/opensandbox/values/controller.yaml

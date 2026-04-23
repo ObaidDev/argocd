@@ -1,0 +1,6 @@
+controller:
+  image:
+    repository: sandbox-registry.cn-zhangjiakou.cr.aliyuncs.com/opensandbox/controller
+    tag: ""
+  logLevel: info
+  replicaCount: 1

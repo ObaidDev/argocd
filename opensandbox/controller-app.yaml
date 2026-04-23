@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  # project: default
+  project: default
 
   sources:
     # Source 1 — the controller chart

@@ -34,3 +34,14 @@ spec:
             name: seogeo-backend-service
             port:
               number: 80
+
+  - host: sandbox.systrox.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: opensandbox-server
+            port:
+              number: 80

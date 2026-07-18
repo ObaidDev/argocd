@@ -1,29 +1,27 @@
 # opensandbox-ingress.yaml  (in opensandbox)
 #
-# Single Ingress, two hosts:
-#   sandbox.systrox.com    -> opensandbox-server          (in tls: -> HTTPS + redirect, Cloudflare-facing)
-#   *.sandbox.systrox.com  -> opensandbox-ingress-gateway (NOT in tls: -> plain HTTP, TEMP for testing)
+# Single Ingress, two hosts, both HTTPS (browser-trusted via Let's Encrypt prod):
+#   sandbox.systrox.com    -> opensandbox-server          (apex, Cloudflare-fronted)
+#   *.sandbox.systrox.com  -> opensandbox-ingress-gateway (per-sandbox subdomains, DNS-only/direct)
 #
-# nginx-ingress applies the HTTPS redirect per-host, only to hosts that have a TLS
-# cert. Leaving the wildcard out of tls: serves it over HTTP without touching the
-# apex. Wildcard TLS needs DNS-01 (Let's Encrypt won't issue *.<domain> over HTTP-01);
-# add it back here via a DNS-01 (Cloudflare) issuer once gateway routing is confirmed.
+# Both SANs live in one cert (opensandbox-tls). A wildcard does NOT cover its own
+# base, so the apex is listed explicitly alongside *.sandbox.systrox.com. The cert
+# is issued by letsencrypt-prod via the Cloudflare DNS-01 solver (see
+# infrastructure/cluster-issuer.yaml) — HTTP-01 can't issue wildcards. ssl-redirect
+# is back on (default): both hosts now have a trusted cert, so HTTP -> HTTPS is safe.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: opensandbox-ingress
   namespace: opensandbox-system
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
-    # TEMP (HTTP test): apex TLS turns on ssl-redirect ingress-wide, forcing the
-    # wildcard host to 308 -> https (no cert). Disable it so the wildcard serves
-    # plain HTTP. Safe for the Cloudflare-fronted apex; revisit when wildcard TLS lands.
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
     - sandbox.systrox.com
+    - "*.sandbox.systrox.com"
     secretName: opensandbox-tls
   rules:
   - host: sandbox.systrox.com
@@ -37,7 +35,7 @@ spec:
             port:
               number: 80
 
-  # Sandbox pod traffic (wildcard) — HTTP-only for now (not in tls: above)
+  # Sandbox pod traffic (wildcard) — HTTPS via the shared opensandbox-tls cert above
   - host: "*.sandbox.systrox.com"
     http:
       paths:

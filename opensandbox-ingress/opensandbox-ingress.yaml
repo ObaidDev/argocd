@@ -15,6 +15,10 @@ metadata:
   namespace: opensandbox-system
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    # TEMP (HTTP test): apex TLS turns on ssl-redirect ingress-wide, forcing the
+    # wildcard host to 308 -> https (no cert). Disable it so the wildcard serves
+    # plain HTTP. Safe for the Cloudflare-fronted apex; revisit when wildcard TLS lands.
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   tls:

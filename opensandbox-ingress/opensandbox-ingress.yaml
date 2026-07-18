@@ -1,4 +1,14 @@
 # opensandbox-ingress.yaml  (in opensandbox)
+#
+# Two Ingresses:
+#   A) apex  sandbox.systrox.com  -> opensandbox-server        (TLS, unchanged — Cloudflare-facing)
+#   B) *.sandbox.systrox.com      -> opensandbox-ingress-gateway (HTTP-only, TEMP for testing)
+#
+# The wildcard is HTTP-only for now because a *.sandbox.systrox.com cert cannot be
+# issued over HTTP-01 (Let's Encrypt requires DNS-01 for wildcards). Once gateway
+# routing is confirmed, add TLS back on Ingress B via a DNS-01 (Cloudflare) issuer.
+
+# --- Ingress A: control API (apex), TLS kept as-is ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,7 +21,6 @@ spec:
   tls:
   - hosts:
     - sandbox.systrox.com
-    - "*.sandbox.systrox.com" 
     secretName: opensandbox-tls
   rules:
   - host: sandbox.systrox.com
@@ -24,15 +33,25 @@ spec:
             name: opensandbox-server
             port:
               number: 80
-
-  # Sandbox pod traffic (wildcard)  
-  - host: "*.sandbox.systrox.com"  
-    http:  
-      paths:  
-      - path: /  
-        pathType: Prefix  
-        backend:  
-          service:  
-            name: opensandbox-ingress-gateway  
-            port:  
+---
+# --- Ingress B: sandbox traffic (wildcard), HTTP-only (TEMP) ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: opensandbox-wildcard-ingress
+  namespace: opensandbox-system
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "*.sandbox.systrox.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: opensandbox-ingress-gateway
+            port:
               number: 80
